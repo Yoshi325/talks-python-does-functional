@@ -6,9 +6,15 @@ set -e
 [ -n "$(command -v sed)"    ]    || (echo "sed is required for this script"    && exit 1)
 [ -n "$(command -v tidy)"   ]   || (echo "tidy is required for this script"   && exit 1)
 
+echo "Copying outline for building..."
+cp -v outline.rst built-outline.rst
+
+echo "Processing .. include:: shim for pandoc..."
+python -u ./include-shim-for-pandoc.py built-outline.rst
+
 echo "Converting to reveal.js presentation..."
 pandoc \
-    outline.rst \
+    built-outline.rst \
     --read=rst \
     --write=revealjs \
     --slide-level 1 \
@@ -40,10 +46,13 @@ pandoc \
 PDF_FILENAME="$(basename $(pwd)).pdf"
 echo "Converting to pdf (via latex): ${PDF_FILENAME}..."
 pandoc \
-    outline.rst \
+    built-outline.rst \
     --read=rst \
     --write=beamer \
     --slide-level 1 \
     --standalone \
     --output="${PDF_FILENAME}" \
 ;
+
+echo "Removing built outline..."
+rm -v built-outline.rst
