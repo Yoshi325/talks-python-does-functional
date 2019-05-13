@@ -34,11 +34,11 @@ if ('__main__' == __name__):
 
         pattern = re.compile(r'\.\. include:: (?P<filename>.*)\n')
         file_input_ = partial(fileinput.input, inplace=True)
-        # stdout_ = sys.stdout
+        # debug_printer = partial(print, file=sys.stdout)
         with file_input_() as handle:
             for line in handle:
                 match = pattern.fullmatch(line)
-                # print(match, file=stdout_)
+                # debug_printer(match)
                 if match:
                     with open(match.group('filename'), mode='rt') as include_handle:
                         print(include_handle.read())

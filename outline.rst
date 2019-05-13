@@ -38,7 +38,7 @@ Pre-Talk Q & A
 **************
 
 - What are you looking for from this Talk?
-- I might call a: L.A.F.O.
+- I might call a L.A.F.O.
 
 .. notes::
 
@@ -53,6 +53,8 @@ Pre-Talk Q & A
 
   Oh, and on that, Lisp is multi-paradigm too...
 
+  I don't cover monads. That's a whole 30 minute talk in itself.
+
 
 *******
 Summary
@@ -61,7 +63,7 @@ Summary
 .. notes::
 
   This talk is not exhaustive. My intention is to address specific items and
-  help you "dip your toe" into Functional Programming.
+  help you "dip your toe" into Functional Programming with Python.
 
 
 ******
@@ -118,6 +120,10 @@ Manipulation of state outside the function.
         handle.write('abcd') # side effect
     return (a + b)
 
+.. notes::
+
+  the concern here is hidden or unpredictable behavior, which makes understanding and testing harder
+
 
 **************
 Pure Functions
@@ -129,6 +135,11 @@ Functions without Side Effects.
 
   def add(a, b):
     return (a + b)
+
+.. notes::
+
+  Math lends itself well to this. At it's core, functional programming was born
+  from math (lambda calculus).
 
 
 ************************
@@ -277,6 +288,8 @@ Nope.
 
   Python doesn't have this. We will talk about it later.
 
+  But basically it's taking an input, then passing it to subsequent callables with arity of one.
+
 
 ****************
 Terms & Concepts
@@ -287,6 +300,7 @@ More lingo.
 - Tail Call Optimization
 - Pattern Matching
 - Data Modeling
+- Immutability
 - Algebraic Data Types
 
 
@@ -306,26 +320,50 @@ Tail Call Optimization
   https://stackoverflow.com/a/310980/135342
 
 
+**********************
+Tail Call Optimization
+**********************
+
+You'll know you want this when you hit the recursion limit in Python.
+
+
 ****************
 Pattern Matching
 ****************
 
 Ugh. Still Nope. Python doesn't have this either.
 
-Switch statement on steriods.
 
-(yeah, I know, Python doesn't have those).
+.. notes::
 
-Often used to match on types, as well as other attributes.
+  Switch statement on steriods.
+
+  (yeah, I know, Python doesn't have those).
+
+  Often used to match on types, as well as other attributes.
 
 
 *************
 Data Modeling
 *************
 
-Phew. Back on track. Now in Python 3.7, we have dataclasses and type hints that allow for very robust modeling.
+Phew. Back on track.
 
 Accurate Data Modeling is very important to Functional Programming, because the data and functionality are firmly separated.
+
+
+*************
+Data Modeling
+*************
+
+- dataclasses
+- type hints
+
+.. notes::
+
+  Now in Python 3.7, we have dataclasses and type hints that allow for very robust modeling.
+
+  Also, Python 3.6 via a package.
 
 
 *************
@@ -349,6 +387,28 @@ Data Modeling
     items        :List[LineItem]
 
 
+************
+Immutability
+************
+
+by ref? by val?
+
+stop the madness!
+
+.. code:: python
+
+  Person = namedtuple('Person', ['name', 'favorite_color'])
+  that_guy = Person('Barry', 'yellow')
+  that_guy._replace(favorite_color='blue')
+
+  @dataclass(frozen=True)
+  class Person:
+    name :str
+    favorite_color :str
+
+  # inst.replace(favorite_color='blue')
+
+
 ********************
 Algebraic Data Types
 ********************
@@ -356,6 +416,12 @@ Algebraic Data Types
 Here we go again...
 
 Python does not natively have Algebraic Data Types.
+
+.. notes::
+
+  (sum types)
+
+  foundation of `Maybe` or `option`
 
 
 ********************
@@ -412,15 +478,6 @@ What is it?
   with a shiny, interop/side effect candy shell.
 
 
-********
-Benefits
-********
-
-- Modularity
-- Composability
-- Optimization
-- Testing
-
 
 ************************************
 Native Python Functional Affordances
@@ -444,7 +501,7 @@ Native Python Functional Affordances
 - itertools
 - functools
   - map / filter / reduce
-- dataclasses (with Frozen for immutability)
+- dataclasses (with `frozen=True` for immutability)
 - named tuples (which are immutable by nature)
 
 
@@ -481,6 +538,71 @@ Drawbacks
   There are a few key things missing from Python for me to consider it a full-fledged Functional Programming Langauge.
 
   F# type pipeline syntax.
+
+
+********
+Benefits
+********
+
+- Modularity
+- Composability
+- Optimization
+- Testing
+
+
+**********
+Modularity
+**********
+
+Small pieces (functions) that are composed and applied to a model allows for reusibility.
+
+.. notes::
+
+  espically in Python where Duck Typing rules
+
+
+*************
+Composability
+*************
+
+Instead of trying to write W.E.T. functions, or putting them into odd places, composability allows you to build small pieces that you can fit in your head.
+
+
+************
+Optimization
+************
+
+These small pieces of functionality lend themselves to inspection, and therefore easy optimization.
+
+One example: memoization
+
+
+*******
+Testing
+*******
+
+Similar to what may be said about optimization, testing is easy with Functional Programming.
+
+.. notes::
+
+  traits like immutability and pure functions also provide a solid path to testing
+
+
+************************
+What does it mean to me?
+************************
+
+.. notes::
+
+  Personally, this maps to the way I think. I break things down into data, and operations I would like to preform on that data.
+
+  It helps to maintain scope.
+
+  It produces D.R.Y. code.
+
+  It helps me define ways to test units.
+
+  All of this leads to maintainability.
 
 
 *****
@@ -526,3 +648,39 @@ Of course! Coconut adds the `match` keyword.
 
   match [head] + tail in [0, 1, 2, 3]:
     print(head, tail)
+
+
+*****
+Other
+*****
+
+`toolz <https://pypi.org/project/toolz/>`
+
+  A functional standard library for Python.
+
+.. notes::
+
+  maybe you prefer a library to a whole different language?
+
+
+*****
+Other
+*****
+
+https://www.pyfunctional.org
+
+  PyFunctional’s API takes inspiration from Scala collections, Apache Spark RDDs, and Microsoft LINQ.
+
+
+*****
+Other
+*****
+
+`https://github.com/radix/sumtypes/ <sumtypes>`_
+
+  Sum Types, aka Tagged Unions, for Python
+
+
+*******
+The End
+*******
