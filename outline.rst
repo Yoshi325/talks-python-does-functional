@@ -37,22 +37,28 @@ GitHub & YouTube: Yoshi325
 Pre-Talk Q & A
 **************
 
-- L.A.F.O.
+- What are you looking for from this Talk?
+- I might call a: L.A.F.O.
 
-..
+.. notes::
 
   Start off with Q&A about what people would like to get from this talk.
-  Mention LAFO (aka RAFO, but for presentations).
+  Mention LAFO (Listen and find out, from: Read And Find Out, but for presentations).
 
-  Ask questions mid-talk.
+  Mention that it is okay to ask questions mid-talk.
+
+  Also mention that Functional Programming is a very old idea (atleast as old
+  as Lisp; 1950s). So there isn't much original content for this talk. Rather,
+  it is a packaging of and a focus on how Python does functional.
+
+  Oh, and on that, Lisp is multi-paradigm too...
 
 
 *******
 Summary
 *******
 
-
-..
+.. notes::
 
   This talk is not exhaustive. My intention is to address specific items and
   help you "dip your toe" into Functional Programming.
@@ -62,35 +68,348 @@ Summary
 Secret
 ******
 
+.. notes::
 
-..
+  I'll tell you a secret.
 
-  I'll tell you a secret. You're already doing this if you've done any serious
-  Python work. You just might not realize it.
+  You're already doing this if you've done any serious Python work.
 
-
-**********
-Want More?
-**********
-
-Want more information, with more accurate terms? https://docs.python.org/3.7/howto/functional.html
+  You just might not realize it.
 
 
-*******************
-Functional Concepts
-*******************
+****************
+Want More Later?
+****************
+
+Want more information, with more accurate terms?
+
+https://docs.python.org/3.7/howto/functional.html
+
+
+****************
+Terms & Concepts
+****************
+
+Let's learn the lingo.
 
 - Side Effects
 - Pure Functions
-- Higher-Order Functions
-- Separating Data from Function
-- Accurate Data Modeling
 - Referential Transparency
+- First-Class Functions
+- Higher-Order Functions
+- Partial Function Application
+- Currying
+- Function Composition
+- Pipeline Style
 
 
+************
+Side Effects
+************
+
+Manipulation of state outside the function.
+
+.. code:: python
+
+  def add(a, b):
+    print('Hello!') # side effect
+    global c; c = 5 # side effect
+    with open('./README.rst') as handle:
+        handle.write('abcd') # side effect
+    return (a + b)
 
 
-"higher-order function takes one or more functions as input and returns a new function. The most useful tool in this module is the functools.partial() function."
+**************
+Pure Functions
+**************
+
+Functions without Side Effects.
+
+.. code:: python
+
+  def add(a, b):
+    return (a + b)
+
+
+************************
+Referential Transparency
+************************
+
+One or more Pure Functions (composed to) create a result that is repeatable
+from the same set of initial inputs.
+
+.. code:: python
+
+  def add(a, b):
+    return (a + b)
+
+  def sub(c, d):
+    return (c - d)
+
+  e = sub(6 - 4)
+  f = add(1, e)
+  # f == 3
+
+.. notes::
+
+  f will always equal 3
+
+  we can use this with `memoization`, "an optimization technique used primarily to speed up computer programs by storing the results of expensive function calls and returning the cached result when the same inputs occur again."
+
+  https://en.wikipedia.org/wiki/Memoization
+
+
+*********************
+First-Class Functions
+*********************
+
+  This means the language supports passing functions as arguments to other functions, returning them as the values from other functions, and assigning them to variables or storing them in data structures
+
+  https://en.wikipedia.org/wiki/First-class_function
+
+
+**********************
+Higher-Order Functions
+**********************
+
+Functions that operate on (and return) Functions.
+
+.. code:: python
+
+  def logged(func):
+    def with_logging(*args, **kwargs):
+        print(func.__name__ + " was called")
+        return func(*args, **kwargs)
+    return with_logging
+
+.. notes::
+
+  source: https://stackoverflow.com/a/309000
+
+  anyone think they might recognize a way Python might specifically utilize these?
+
+  (decorators)
+
+  these are also called "combinators"
+
+  anyone have another name for the inner function?
+
+  (closure)
+
+  we will get back to that later
+
+
+****************************
+Partial Function Application
+****************************
+
+  [...] fixing a number of arguments to a function, producing another function of smaller arity.
+
+  https://en.wikipedia.org/wiki/Partial_application
+
+
+.. notes::
+
+  Can be used to reduce the number of arguments. (arity == number of arguments)
+
+
+****************************
+Partial Function Application
+****************************
+
+.. code:: python
+
+  import operator
+  from functools import partial
+
+  add_one = partial(operator.add, 1)
+  # add_one == functools.partial(<built-in function add>, 1)
+
+  a = add_one(2)
+  # a == 3
+
+.. notes::
+
+  Possibly could be used to reduce the `arity` to 1. Which leads into...
+
+
+********
+Currying
+********
+
+Taking a function with multiple arguments, and re-expressing it as a series of functions with one argument.
+
+.. code:: python
+
+  # see previous example
+
+.. notes::
+
+  But it can be taken further. Much further.
+
+
+********************
+Function Composition
+********************
+
+Composing multiple functions to produce a single result.
+
+.. code:: python
+
+  add_two = partial(add, 2)
+  mul_two = partial(mul, 2)
+  x = add_two(mul_two(10))
+
+  add_and_mul_two = lambda y: add_two(mul_two(y))
+
+  z = add_and_mul_two(10)
+
+  # x == z
+
+
+**************
+Pipeline Style
+**************
+
+Nope.
+
+.. notes::
+
+  Python doesn't have this. We will talk about it later.
+
+
+****************
+Terms & Concepts
+****************
+
+More lingo.
+
+- Tail Call Optimization
+- Pattern Matching
+- Data Modeling
+- Algebraic Data Types
+
+
+**********************
+Tail Call Optimization
+**********************
+
+Nope. Python doesn't have this either.
+
+
+**********************
+Tail Call Optimization
+**********************
+
+  Tail-call optimization is where you are able to avoid allocating a new stack frame for a function because the calling function will simply return the value that it gets from the called function. The most common use is tail-recursion, where a recursive function written to take advantage of tail-call optimization can use constant stack space.
+
+  https://stackoverflow.com/a/310980/135342
+
+
+****************
+Pattern Matching
+****************
+
+Ugh. Still Nope. Python doesn't have this either.
+
+Switch statement on steriods.
+
+(yeah, I know, Python doesn't have those).
+
+Often used to match on types, as well as other attributes.
+
+
+*************
+Data Modeling
+*************
+
+Phew. Back on track. Now in Python 3.7, we have dataclasses and type hints that allow for very robust modeling.
+
+Accurate Data Modeling is very important to Functional Programming, because the data and functionality are firmly separated.
+
+
+*************
+Data Modeling
+*************
+
+.. code:: python
+
+  from typing import List
+  from typing import Optional
+  from dataclasses import dataclass
+
+  @dataclass(frozen=True)
+  class LineItem:
+    item_id :int
+    notes   :Optional[str]
+
+  @dataclass(frozen=True)
+  class Orders:
+    order_number :str
+    items        :List[LineItem]
+
+
+********************
+Algebraic Data Types
+********************
+
+Here we go again...
+
+Python does not natively have Algebraic Data Types.
+
+
+********************
+Algebraic Data Types
+********************
+
+But! We can emulate this with things from `typing`.
+
+.. code:: python
+
+  @dataclass
+  class ItemShapeEmpty: pass
+
+  @dataclass
+  class ItemShapeLegacy:
+    name        :str
+    description :str
+
+  @dataclass
+  class ItemShapeModern:
+    id        :int
+    name      :str
+    detail_id :int
+
+  Item = NewType('Item', Union[
+      ItemShapeEmpty,
+      ItemShapeLegacy,
+      ItemShapeModern,
+  ])
+
+
+***********
+What is it?
+***********
+
+  Functional programming can be considered the opposite of object-oriented programming.
+
+.. notes::
+
+  Functionality is kept separate from data. There are many advantages to this.
+
+
+***********
+What is it?
+***********
+
+  Functional programming decomposes a problem into a set of functions. Ideally, functions only take inputs and produce outputs, and don’t have any internal state that affects the output produced for a given input.
+
+.. notes::
+
+  That doesn't sound very useful. How can we operate without side effects?
+
+  But there is alot of good that can come from having a "functional" core,
+  with a shiny, interop/side effect candy shell.
 
 
 ********
@@ -99,48 +418,111 @@ Benefits
 
 - Modularity
 - Composability
+- Optimization
 - Testing
 
-Native Python Functional Affordances:
+
+************************************
+Native Python Functional Affordances
+************************************
+
 (batteries included doesn't just apply to system calls)
+
 - functions are first class objects
 - boolean expressions are short-circuited
+- enumerate
+- any
+- all
+
+
+************************************
+Native Python Functional Affordances
+************************************
+
 - iterators
 - generators
 - itertools
 - functools
-- map
-- filter
-- reduce
-- enumerate
-- any
-- all
+  - map / filter / reduce
 - dataclasses (with Frozen for immutability)
 - named tuples (which are immutable by nature)
 
-Drawbacks:
-- Tail call optimization (recursion limit)
-- Pattern matching
-- Automatic currying
-- Concise way to compose functions
-- Syntax
+
+******
+Lambda
+******
+
+.. notes::
+
+  Lambda might not be what you think it is. In Python, even when creating what
+  Functional Programming would call a lambda, you probably don't want to use
+  Python's ``lambda``. Rather, you probably want to create a closure. Python's
+  lambdas are "anonymous functions", but are limited to a single line that
+  can often make them less understandable. They can operate like a closure,
+  but often times that is an unintentional behavior that is subtle enough to be
+  missed.
 
 
-"Functional programming decomposes a problem into a set of functions. Ideally, functions only take inputs and produce outputs, and don’t have any internal state that affects the output produced for a given input."
+*********
+Drawbacks
+*********
 
-"In a functional program, input flows through a set of functions. Each function operates on its input and produces some output. Functional style discourages functions with side effects that modify internal state or make other changes that aren’t visible in the function’s return value. Functions that have no side effects at all are called purely functional. Avoiding side effects means not using data structures that get updated as a program runs; every function’s output must only depend on its input."
+(specifically when using Functional concepts in Python)
+
+- Tail Call Optimization (recursion limit)
+- Pattern Matching
+- Automatic Currying
+- Pipeline Syntax
+- Clean Algebraic Data Types
+- Clean Function Composition
+
+.. notes::
+
+  There are a few key things missing from Python for me to consider it a full-fledged Functional Programming Langauge.
+
+  F# type pipeline syntax.
 
 
-"Functional programming can be considered the opposite of object-oriented programming."
+*****
+Bonus
+*****
+
+`Coconut <http://coconut-lang.org/>`_
+
+  "Coconut is a functional programming language that compiles to Python."
+
+.. notes::
+
+   Which cures all the things I feel are lacking from Python for Functional Programming.
 
 
-Lambda might not be what you think it is. In Python, even when creating what Functional Programming would call a lambda, you probably don't want to use Python's ``lambda``. Rather, you probably want to create a closure. Python's lambdas are "anonymous functions", but are limited to a single line that can often make them less understandable. They can operate like a closure, but often times that is an unintentional behavior that is subtle enough to be missed.
+**************
+Pipeline Style
+**************
+
+.. code:: coconut
+
+  add_two = partial(add, 2)
+  mul_two = partial(mul, 2)
+  x = add_two(mul_two(10))
+
+  10 |> (mul_two..add_two) |> print
 
 
+**********************
+Tail Call Optimization
+**********************
+
+Yup. Coconut does this too.
 
 
+****************
+Pattern Matching
+****************
 
+Of course! Coconut adds the `match` keyword.
 
+.. code:: coconut
 
-data modeling via unions and records
-
+  match [head] + tail in [0, 1, 2, 3]:
+    print(head, tail)

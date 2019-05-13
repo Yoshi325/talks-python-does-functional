@@ -16,6 +16,69 @@
       span.underline{text-decoration: underline;}
       div.column{display: inline-block; vertical-align: top; width: 50%;}
     </style>
+    <style>
+    a.sourceLine { display: inline-block; line-height: 1.25; }
+    a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+    a.sourceLine:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode { white-space: pre; position: relative; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    code.sourceCode { white-space: pre-wrap; }
+    a.sourceLine { text-indent: -1em; padding-left: 1em; }
+    }
+    pre.numberSource a.sourceLine
+    { position: relative; left: -4em; }
+    pre.numberSource a.sourceLine::before
+    { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+    }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+    {  }
+    @media screen {
+    a.sourceLine::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    </style>
     <link rel="stylesheet" href="reveal.js/css/theme/black.css" id="theme"><!-- Printing and PDF exports -->
 
     <script>
@@ -36,6 +99,7 @@ h1.subtitle { font-size: 2em; }
 figure, img { border:none !important; outline: none !important; } 
 li { white-space: nowrap; } 
 section#history div.fragment { text-align: left; } 
+.reveal { font-size: 38px; } 
 </style>  
 </head>
 <body>
@@ -44,7 +108,7 @@ section#history div.fragment { text-align: left; }
             <section id="title-slide">
                 <h1 class="title">Python DOES Functional</h1>
                 <p class="author">Charles L. Yost</p>
-                <p class="date">2019-04</p>
+                <p class="date">2019-05</p>
             </section>
             <section id="speaker-bio" class="slide level1">
                 <h1>Speaker Bio</h1>
@@ -63,8 +127,340 @@ section#history div.fragment { text-align: left; }
                     <a href="https://github.com/Yoshi325/talks-python-does-functional">https://github.com/Yoshi325/talks-python-does-functional</a>
                 </div>
             </section>
+            <section id="pre-talk-q-a" class="slide level1">
+                <h1>Pre-Talk Q & A</h1>
+                <ul>
+                    <li>What are you looking for from this Talk?</li>
+                    <li>I might call a: L.A.F.O.</li>
+                </ul>
+                <aside class="notes">
+                    <p>Start off with Q&amp;A about what people would like to get from this talk. Mention LAFO (Listen and find out, from: Read And Find Out, but for presentations).</p>
+                    <p>Mention that it is okay to ask questions mid-talk.</p>
+                    <p>Also mention that Functional Programming is a very old idea (atleast as old as Lisp; 1950s). So there isn't much original content for this talk. Rather, it is a packaging of and a focus on how Python does functional.</p>
+                    <p>Oh, and on that, Lisp is multi-paradigm too...</p>
+                </aside>
+            </section>
             <section id="summary" class="slide level1">
                 <h1>Summary</h1>
+                <aside class="notes">
+                    <p>This talk is not exhaustive. My intention is to address specific items and help you "dip your toe" into Functional Programming.</p>
+                </aside>
+            </section>
+            <section id="secret" class="slide level1">
+                <h1>Secret</h1>
+                <aside class="notes">
+                    <p>I'll tell you a secret.</p>
+                    <p>You're already doing this if you've done any serious Python work.</p>
+                    <p>You just might not realize it.</p>
+                </aside>
+            </section>
+            <section id="want-more-later" class="slide level1">
+                <h1>Want More Later?</h1>
+                <p>Want more information, with more accurate terms?</p>
+                <p><a href="https://docs.python.org/3.7/howto/functional.html">https://docs.python.org/3.7/howto/functional.html</a></p>
+            </section>
+            <section id="terms-concepts" class="slide level1">
+                <h1>Terms & Concepts</h1>
+                <p>Let's learn the lingo.</p>
+                <ul>
+                    <li>Side Effects</li>
+                    <li>Pure Functions</li>
+                    <li>Referential Transparency</li>
+                    <li>First-Class Functions</li>
+                    <li>Higher-Order Functions</li>
+                    <li>Partial Function Application</li>
+                    <li>Currying</li>
+                    <li>Function Composition</li>
+                    <li>Pipeline Style</li>
+                </ul>
+            </section>
+            <section id="side-effects" class="slide level1">
+                <h1>Side Effects</h1>
+                <p>Manipulation of state outside the function.</p>
+                <div class="sourceCode" id="cb1">
+                    <pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">def</span> add(a, b):</a>
+<a class="sourceLine" id="cb1-2" title="2">  <span class="bu">print</span>(<span class="st">'Hello!'</span>) <span class="co"># side effect</span></a>
+<a class="sourceLine" id="cb1-3" title="3">  <span class="kw">global</span> c<span class="op">;</span> c <span class="op">=</span> <span class="dv">5</span> <span class="co"># side effect</span></a>
+<a class="sourceLine" id="cb1-4" title="4">  <span class="cf">with</span> <span class="bu">open</span>(<span class="st">'./README.rst'</span>) <span class="im">as</span> handle:</a>
+<a class="sourceLine" id="cb1-5" title="5">      handle.write(<span class="st">'abcd'</span>) <span class="co"># side effect</span></a>
+<a class="sourceLine" id="cb1-6" title="6">  <span class="cf">return</span> (a <span class="op">+</span> b)</a></code></pre>
+                </div>
+            </section>
+            <section id="pure-functions" class="slide level1">
+                <h1>Pure Functions</h1>
+                <p>Functions without Side Effects.</p>
+                <div class="sourceCode" id="cb2">
+                    <pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">def</span> add(a, b):</a>
+<a class="sourceLine" id="cb2-2" title="2">  <span class="cf">return</span> (a <span class="op">+</span> b)</a></code></pre>
+                </div>
+            </section>
+            <section id="referential-transparency" class="slide level1">
+                <h1>Referential Transparency</h1>
+                <p>One or more Pure Functions (composed to) create a result that is repeatable from the same set of initial inputs.</p>
+                <div class="sourceCode" id="cb3">
+                    <pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">def</span> add(a, b):</a>
+<a class="sourceLine" id="cb3-2" title="2">  <span class="cf">return</span> (a <span class="op">+</span> b)</a>
+<a class="sourceLine" id="cb3-3" title="3"></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="kw">def</span> sub(c, d):</a>
+<a class="sourceLine" id="cb3-5" title="5">  <span class="cf">return</span> (c <span class="op">-</span> d)</a>
+<a class="sourceLine" id="cb3-6" title="6"></a>
+<a class="sourceLine" id="cb3-7" title="7">e <span class="op">=</span> sub(<span class="dv">6</span> <span class="op">-</span> <span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb3-8" title="8">f <span class="op">=</span> add(<span class="dv">1</span>, e)</a>
+<a class="sourceLine" id="cb3-9" title="9"><span class="co"># f == 3</span></a></code></pre>
+                </div>
+                <aside class="notes">
+                    <p>f will always equal 3</p>
+                    <p>we can use this with <span class="title-ref">memoization</span>, "an optimization technique used primarily to speed up computer programs by storing the results of expensive function calls and returning the cached result when the same inputs occur again."</p>
+                    <p><a href="https://en.wikipedia.org/wiki/Memoization">https://en.wikipedia.org/wiki/Memoization</a></p>
+                </aside>
+            </section>
+            <section id="first-class-functions" class="slide level1">
+                <h1>First-Class Functions</h1>
+                <blockquote>
+                    <p>This means the language supports passing functions as arguments to other functions, returning them as the values from other functions, and assigning them to variables or storing them in data structures</p>
+                    <p><a href="https://en.wikipedia.org/wiki/First-class_function">https://en.wikipedia.org/wiki/First-class_function</a></p>
+                </blockquote>
+            </section>
+            <section id="higher-order-functions" class="slide level1">
+                <h1>Higher-Order Functions</h1>
+                <p>Functions that operate on (and return) Functions.</p>
+                <div class="sourceCode" id="cb4">
+                    <pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">def</span> logged(func):</a>
+<a class="sourceLine" id="cb4-2" title="2">  <span class="kw">def</span> with_logging(<span class="op">*</span>args, <span class="op">**</span>kwargs):</a>
+<a class="sourceLine" id="cb4-3" title="3">      <span class="bu">print</span>(func.<span class="va">__name__</span> <span class="op">+</span> <span class="st">" was called"</span>)</a>
+<a class="sourceLine" id="cb4-4" title="4">      <span class="cf">return</span> func(<span class="op">*</span>args, <span class="op">**</span>kwargs)</a>
+<a class="sourceLine" id="cb4-5" title="5">  <span class="cf">return</span> with_logging</a></code></pre>
+                </div>
+                <aside class="notes">
+                    <p>source: <a href="https://stackoverflow.com/a/309000">https://stackoverflow.com/a/309000</a></p>
+                    <p>anyone think they might recognize a way Python might specifically utilize these?</p>
+                    <p>(decorators)</p>
+                    <p>these are also called "combinators"</p>
+                    <p>anyone have another name for the inner function?</p>
+                    <p>(closure)</p>
+                    <p>we will get back to that later</p>
+                </aside>
+            </section>
+            <section id="partial-function-application" class="slide level1">
+                <h1>Partial Function Application</h1>
+                <blockquote>
+                    <p>[...] fixing a number of arguments to a function, producing another function of smaller arity.</p>
+                    <p><a href="https://en.wikipedia.org/wiki/Partial_application">https://en.wikipedia.org/wiki/Partial_application</a></p>
+                </blockquote>
+                <aside class="notes">
+                    <p>Can be used to reduce the number of arguments. (arity == number of arguments)</p>
+                </aside>
+            </section>
+            <section id="partial-function-application-1" class="slide level1">
+                <h1>Partial Function Application</h1>
+                <div class="sourceCode" id="cb5">
+                    <pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb5-1" title="1"><span class="im">import</span> operator</a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="im">from</span> functools <span class="im">import</span> partial</a>
+<a class="sourceLine" id="cb5-3" title="3"></a>
+<a class="sourceLine" id="cb5-4" title="4">add_one <span class="op">=</span> partial(operator.add, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="co"># add_one == functools.partial(&lt;built-in function add&gt;, 1)</span></a>
+<a class="sourceLine" id="cb5-6" title="6"></a>
+<a class="sourceLine" id="cb5-7" title="7">a <span class="op">=</span> add_one(<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb5-8" title="8"><span class="co"># a == 3</span></a></code></pre>
+                </div>
+                <aside class="notes">
+                    <p>Possibly could be used to reduce the <span class="title-ref">arity</span> to 1. Which leads into...</p>
+                </aside>
+            </section>
+            <section id="currying" class="slide level1">
+                <h1>Currying</h1>
+                <p>Taking a function with multiple arguments, and re-expressing it as a series of functions with one argument.</p>
+                <div class="sourceCode" id="cb6">
+                    <pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb6-1" title="1"><span class="co"># see previous example</span></a></code></pre>
+                </div>
+                <aside class="notes">
+                    <p>But it can be taken further. Much further.</p>
+                </aside>
+            </section>
+            <section id="function-composition" class="slide level1">
+                <h1>Function Composition</h1>
+                <p>Composing multiple functions to produce a single result.</p>
+                <pre class="python add_two = partial(add, 2) mul_two = partial(mul, 2) x = add_two(mul_two(10))"><code>add_and_mul_two = lambda y: add_two(mul_two(y))
+
+z = add_and_mul_two(10)
+
+# x == z</code></pre>
+            </section>
+            <section id="pipeline-style" class="slide level1">
+                <h1>Pipeline Style</h1>
+                <p>Nope.</p>
+                <aside class="notes">
+                    <p>Python doesn't have this. We will talk about it later.</p>
+                </aside>
+            </section>
+            <section id="terms-concepts-1" class="slide level1">
+                <h1>Terms & Concepts</h1>
+                <p>More lingo.</p>
+                <ul>
+                    <li>Tail Call Optimization</li>
+                    <li>Pattern Matching</li>
+                    <li>Data Modeling</li>
+                    <li>Algebraic Data Types</li>
+                </ul>
+            </section>
+            <section id="tail-call-optimization" class="slide level1">
+                <h1>Tail Call Optimization</h1>
+                <p>Nope. Python doesn't have this either.</p>
+                <blockquote>
+                    <p>Tail-call optimization is where you are able to avoid allocating a new stack frame for a function because the calling function will simply return the value that it gets from the called function. The most common use is tail-recursion, where a recursive function written to take advantage of tail-call optimization can use constant stack space.</p>
+                    <p><a href="https://stackoverflow.com/a/310980/135342">https://stackoverflow.com/a/310980/135342</a></p>
+                </blockquote>
+            </section>
+            <section id="pattern-matching" class="slide level1">
+                <h1>Pattern Matching</h1>
+                <p>Ugh. Still Nope. Python doesn't have this either.</p>
+                <p>Switch statement on steriods. (yeah, I know, Python doesn't have those).</p>
+                <p>Often used to match on types, as well as other attributes.</p>
+            </section>
+            <section id="data-modeling" class="slide level1">
+                <h1>Data Modeling</h1>
+                <p>Phew. Back on track. Now in Python 3.7, we have dataclasses and type hints that allow for very robust modeling.</p>
+                <p>Accurate Data Modeling is very important to Functional Programming, because the data and functionality are firmly separated.</p>
+                <div class="sourceCode" id="cb8">
+                    <pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb8-1" title="1"><span class="im">from</span> typing <span class="im">import</span> List</a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="im">from</span> typing <span class="im">import</span> Optional</a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="im">from</span> dataclasses <span class="im">import</span> dataclass</a>
+<a class="sourceLine" id="cb8-4" title="4"></a>
+<a class="sourceLine" id="cb8-5" title="5"><span class="at">@dataclass</span>(frozen<span class="op">=</span><span class="va">True</span>)</a>
+<a class="sourceLine" id="cb8-6" title="6"><span class="kw">class</span> LineItem:</a>
+<a class="sourceLine" id="cb8-7" title="7">  item_id :<span class="bu">int</span></a>
+<a class="sourceLine" id="cb8-8" title="8">  notes   :Optional[<span class="bu">str</span>]</a>
+<a class="sourceLine" id="cb8-9" title="9"></a>
+<a class="sourceLine" id="cb8-10" title="10"><span class="at">@dataclass</span>(frozen<span class="op">=</span><span class="va">True</span>)</a>
+<a class="sourceLine" id="cb8-11" title="11"><span class="kw">class</span> Orders:</a>
+<a class="sourceLine" id="cb8-12" title="12">  order_number :<span class="bu">str</span></a>
+<a class="sourceLine" id="cb8-13" title="13">  items        :List[LineItem]</a></code></pre>
+                </div>
+            </section>
+            <section id="algebraic-data-types" class="slide level1">
+                <h1>Algebraic Data Types</h1>
+                <p>Here we go again...</p>
+                <p>Python does not natively have Algebraic Data Types.</p>
+                <p>We can emulate this with things from <span class="title-ref">typing</span>.</p>
+                <div class="sourceCode" id="cb9">
+                    <pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb9-1" title="1"><span class="at">@dataclass</span></a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="kw">class</span> ItemShapeEmpty:</a>
+<a class="sourceLine" id="cb9-3" title="3">    <span class="cf">pass</span></a>
+<a class="sourceLine" id="cb9-4" title="4"></a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="at">@dataclass</span></a>
+<a class="sourceLine" id="cb9-6" title="6"><span class="kw">class</span> ItemShapeLegacy:</a>
+<a class="sourceLine" id="cb9-7" title="7">  name        :<span class="bu">str</span></a>
+<a class="sourceLine" id="cb9-8" title="8">  description :<span class="bu">str</span></a>
+<a class="sourceLine" id="cb9-9" title="9"></a>
+<a class="sourceLine" id="cb9-10" title="10"><span class="at">@dataclass</span></a>
+<a class="sourceLine" id="cb9-11" title="11"><span class="kw">class</span> ItemShapeModern:</a>
+<a class="sourceLine" id="cb9-12" title="12">  <span class="bu">id</span> :<span class="bu">int</span></a>
+<a class="sourceLine" id="cb9-13" title="13">  name      :<span class="bu">str</span></a>
+<a class="sourceLine" id="cb9-14" title="14">  detail_id :<span class="bu">int</span></a>
+<a class="sourceLine" id="cb9-15" title="15"></a>
+<a class="sourceLine" id="cb9-16" title="16">Item <span class="op">=</span> NewType(<span class="st">'Item'</span>, Union[</a>
+<a class="sourceLine" id="cb9-17" title="17">    ItemShapeEmpty,</a>
+<a class="sourceLine" id="cb9-18" title="18">    ItemShapeLegacy,</a>
+<a class="sourceLine" id="cb9-19" title="19">    ItemShapeModern,</a>
+<a class="sourceLine" id="cb9-20" title="20">])</a></code></pre>
+                </div>
+            </section>
+            <section id="what-is-it" class="slide level1">
+                <h1>What is it?</h1>
+                <blockquote>
+                    <p>Functional programming can be considered the opposite of object-oriented programming.</p>
+                </blockquote>
+            </section>
+            <section id="what-is-it-1" class="slide level1">
+                <h1>What is it?</h1>
+                <blockquote>
+                    <p>Functional programming decomposes a problem into a set of functions. Ideally, functions only take inputs and produce outputs, and don’t have any internal state that affects the output produced for a given input.</p>
+                </blockquote>
+            </section>
+            <section id="what-is-it-2" class="slide level1">
+                <h1>What is it?</h1>
+                <blockquote>
+                    <p>In a functional program, input flows through a set of functions. Each function operates on its input and produces some output. Functional style discourages functions with side effects that modify internal state or make other changes that aren’t visible in the function’s return value. Functions that have no side effects at all are called purely functional. Avoiding side effects means not using data structures that get updated as a program runs; every function’s output must only depend on its input.</p>
+                </blockquote>
+            </section>
+            <section id="benefits" class="slide level1">
+                <h1>Benefits</h1>
+                <ul>
+                    <li>Modularity</li>
+                    <li>Composability</li>
+                    <li>Optimization</li>
+                    <li>Testing</li>
+                </ul>
+            </section>
+            <section id="native-python-functional-affordances" class="slide level1">
+                <h1>Native Python Functional Affordances</h1>
+                <p>(batteries included doesn't just apply to system calls)</p>
+                <ul>
+                    <li>functions are first class objects</li>
+                    <li>boolean expressions are short-circuited</li>
+                    <li>enumerate</li>
+                    <li>any</li>
+                    <li>all</li>
+                    <li>iterators</li>
+                    <li>generators</li>
+                    <li>itertools</li>
+                    <li>functools
+                        <ul>
+                            <li>map / filter / reduce</li>
+                        </ul>
+                    </li>
+                    <li>dataclasses (with Frozen for immutability)</li>
+                    <li>named tuples (which are immutable by nature)</li>
+                </ul>
+            </section>
+            <section id="lambda" class="slide level1">
+                <h1>Lambda</h1>
+                <aside class="notes">
+                    <p>Lambda might not be what you think it is. In Python, even when creating what Functional Programming would call a lambda, you probably don't want to use Python's <code>lambda</code>. Rather, you probably want to create a closure. Python's lambdas are "anonymous functions", but are limited to a single line that can often make them less understandable. They can operate like a closure, but often times that is an unintentional behavior that is subtle enough to be missed.</p>
+                </aside>
+            </section>
+            <section id="drawbacks" class="slide level1">
+                <h1>Drawbacks</h1>
+                <ul>
+                    <li>Tail Call Optimization (recursion limit)</li>
+                    <li>Pattern Matching</li>
+                    <li>Automatic Currying</li>
+                    <li>Pipeline Syntax</li>
+                    <li>Clean Algebraic Data Types</li>
+                    <li>Clean Function Composition</li>
+                </ul>
+                <aside class="notes">
+                    <p>There are a few key things missing from Python for me to consider it a full-fledged Functional Programming Langauge.</p>
+                    <p>F# type pipeline syntax.</p>
+                </aside>
+            </section>
+            <section id="bonus" class="slide level1">
+                <h1>Bonus</h1>
+                <p><a href="http://coconut-lang.org/">Coconut</a></p>
+                <blockquote>
+                    <p>"Coconut is a functional programming language that compiles to Python."</p>
+                </blockquote>
+                <aside class="notes">
+                    <p>Which cures all the things I feel are lacking from Python for Functional Programming.</p>
+                </aside>
+            </section>
+            <section id="pipeline-style-1" class="slide level1">
+                <h1>Pipeline Style</h1>
+                <pre class="coconut"><code>add_two = partial(add, 2)
+mul_two = partial(mul, 2)
+x = add_two(mul_two(10))
+
+10 |&gt; (mul_two..add_two) |&gt; print</code></pre>
+            </section>
+            <section id="tail-call-optimization-1" class="slide level1">
+                <h1>Tail Call Optimization</h1>
+                <p>Yup. Coconut does this too.</p>
+            </section>
+            <section id="pattern-matching-1" class="slide level1">
+                <h1>Pattern Matching</h1>
+                <p>Of course! Coconut adds the <span class="title-ref">match</span> keyword.</p>
+                <pre class="coconut"><code>match [head] + tail in [0, 1, 2, 3]:
+  print(head, tail)</code></pre>
             </section>
         </div>
     </div>

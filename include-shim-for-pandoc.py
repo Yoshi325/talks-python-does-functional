@@ -11,7 +11,7 @@ class InvalidArgumentLength(Exception):
     pass
 
 
-print_ = lambda *x, **y: print(f'{__file__}:', *x, **y)
+print_ = partial(print, f'{__file__}:')
 
 
 @contextmanager
@@ -34,7 +34,7 @@ if ('__main__' == __name__):
 
         pattern = re.compile(r'\.\. include:: (?P<filename>.*)\n')
         file_input_ = partial(fileinput.input, inplace=True)
-        stdout_ = sys.stdout
+        # stdout_ = sys.stdout
         with file_input_() as handle:
             for line in handle:
                 match = pattern.fullmatch(line)

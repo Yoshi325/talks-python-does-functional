@@ -8,5 +8,10 @@ pandoc = "*"
 
 [packages]
 
+[scripts]
+transform = """
+    ./transform.sh
+"""
+
 [requires]
 python_version = "3.7"

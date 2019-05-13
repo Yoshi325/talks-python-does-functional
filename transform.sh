@@ -38,6 +38,7 @@ pandoc \
                 figure, img { border:none !important; outline: none !important; } \
                 li { white-space: nowrap; } \
                 section#history div.fragment { text-align: left; } \
+                .reveal { font-size: 38px; } \
             </style>  \
     ' \
   > index.html \
